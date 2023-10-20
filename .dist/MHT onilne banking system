@@ -1,0 +1,224 @@
+#include <stdio.h>
+
+int numclients = 0;
+char services;
+int initial = 1379327465;
+int check;
+double withdraw,deposit;
+char transactions;
+
+#define max_clients 100000
+
+//create a structure to represent the client information
+typedef struct client{
+    char name[100];
+    int id_no;
+    char kra_pin[9];
+    int acc_no;
+    char acc_type[100];
+    double acc_bal,newacc_bal;
+}clients;
+clients c1[max_clients];
+
+//declare all the functions in the program
+void eregister();
+void status();
+void transaction();
+void withdrawal();
+void depository();
+
+//declare the service program
+void service(){
+    printf("please input the numerals of the choice you wish to view:\n");
+    printf("1.Account registration(for new users only).\n");
+    printf("2.Account status.\n");
+    printf("3.Transaction services.\n")
+    
+    scanf("%c",&services);
+
+    switch (services) {
+        case '1':
+        eregister();
+        break;
+
+        case '2':
+        status();
+        break;
+
+        case '3':
+        transaction();
+        break;
+
+        default:
+        printf("You entered an invalid choice,please try again!\n");
+        service();
+        break;
+
+       }
+    }
+//declare the main function
+int main (){
+    printf("***welcome to MHT bank online system***\n");
+
+    service();
+    return 0;
+}
+//declare the online regisration function
+void eregister(){
+    if (numclients > max_clients){
+        printf("The maximum number of registable members has been reached!!!\n");
+        service();
+    }
+    else {
+        for ( int i = 0; i < max_clients; i++){
+            clients c1[i];
+            printf("Input the following details:");
+            printf("\nFull name: ");
+
+            getchar();
+            fgets((c1[i]).name, 100, stdin);
+1
+
+            printf("\nNational identification number: ");
+            scanf("%d", &(c1[i]).id_no);
+
+            printf("\nKRA pin: ");
+            scanf("%s", &(c1[i]).kra_pin);
+
+            printf("\nDesired type of account: ");
+            scanf("%s", &(c1[i]).acc_type);
+
+            (c1[i]).acc_no = initial;
+            initial++;
+
+            printf("\nInitial account deposit: ");
+            scanf("%d", &(c1[i]).acc_bal);
+
+            printf("\nAccount registration is successfully complete.");
+            printf("\nWelcome to the MHT community!");
+            numclients++;
+            break;
+        }
+        service();
+    }
+}
+//declare the status function
+void status(){
+    if (check > initial || check < 1379327465){
+        printf("\nThe account number does not exist!");
+        service();
+        
+    }
+    else{
+        printf("Input your account number: ");
+        scanf("%d", &check);
+        //declare the for loop to search the client with the inserted account number
+        for ( int i = 0; i < numclients; i++){
+            if ((c1[i]).acc_no = check){
+                printf("Name: ");
+                puts((c1[i]).name);
+
+                printf("\nAccount number: %d", &(c1[i]).acc_no);
+                printf("\nType of account: %s", &(c1[i]).acc_type);
+                printf("\nAccount balance: %d", &(c1[i]).acc_bal);
+
+                //********time and date********
+                printf("\nTime: %s", __TIME__);
+                printf("\nDate: %s", __DATE__);
+
+                printf("\nThank you for banking with us today!");
+                printf("\nWelcome again!");
+
+            }
+        } 
+
+    }
+}
+//define the transaction function
+void transaction(){
+    //display message when there are no registered members
+    if(numclients==0){
+        printf("\nNo members have been registered yet!!");
+        printf("\nPlease try agian!!");
+
+        service();
+    }
+    else{
+        printf("\nEnter your account number: ");
+        scanf("%d", &check);
+
+        //run a loop to check the existence of the account number among the available members
+        for(int i=0; i< numclient; i++){
+
+            //initialize the transaction sub-functions if the members account number is found
+            if((c1[i]).acc_bal == check){
+                printf("\nSelect the action you wish to execute: ");
+                printf("\n1.Withdrawal sercive.");
+                printf("\n2.Depository service.\n");
+
+                scanf("%c", &transactions);
+
+                switch(transactions){
+                    case '1':
+                    withdraw();
+                    break;
+
+                    case '2':
+                    deposit();
+                    break;
+
+                    default:
+                    printf("\nYou entered an invalid choice!!");
+                    printf("\nTry again!!");
+                    transaction();
+                    break;
+
+                }
+                //define the withdrawal sub-function
+                void withdrawal(){
+                    printf("\nEnter the amount you wish to withdraw: ");
+                    scanf("%d",&withdraw);
+
+                    //carry out the withdrawal calculations
+                    (c1[i]).newacc_bal = (c1[i]).acc_bal - withdraw;
+
+                    //display some info for the member to know of the account status
+                    printf("\nYou have withdrawn ksh.%d",withdraw);
+                    printf("\nYour new account balance is ksh.%d",(c1[i]).newacc_bal);
+                    printf("\nThank you for banking with us.\nMHT bank,with you in every step of the way.");
+                    
+                    
+                    printf("\nTime: %s", __TIME__);
+                    printf("\nDate: %s", __DATE__);
+
+                    service();
+                }
+                //define the depository sub-function
+                void depository(){
+                    printf("\nEnter the amount you wish to deposit: ");
+                    scanf("%d",&deposit);
+
+                    //carry out the depository calculations
+                    (c1[i]).newacc_bal = (c1[i]).acc_bal + deposit;
+
+                    //display some info for the member to know of the account status
+                    printf("\nYou have deposited ksh.%d",deposit);
+                    printf("\nYour new account balance is ksh.%d",(c1[i]).newacc_bal);
+                    printf("\nThank you for banking with us.\nMHT bank,with you in every step of the way.");
+                    
+                    
+                    printf("\nTime: %s", __TIME__);
+                    printf("\nDate: %s", __DATE__);
+
+                    service();
+                }
+            }
+            else{
+                printf("\nThe account number you entered was not found!!");
+                printf("\nPlease try again!");
+                service();
+                
+            }
+        }
+    }
+}
